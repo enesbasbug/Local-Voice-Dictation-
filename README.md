@@ -16,7 +16,7 @@ Powered by [whisper.cpp](https://github.com/ggerganov/whisper.cpp) and [GGML](ht
 
 ```bash
 # 1. Clone and setup
-git clone https://github.com/YOUR_USERNAME/VoiceToClipboard.git
+git clone https://github.com/enesbasbug/VoiceToClipboard.git
 cd VoiceToClipboard
 ./setup.sh
 
@@ -81,7 +81,7 @@ xcode-select -p
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/VoiceToClipboard.git
+git clone https://github.com/enesbasbug/VoiceToClipboard.git
 cd VoiceToClipboard
 ```
 
