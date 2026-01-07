@@ -416,14 +416,33 @@ GitHub: github.com/ggerganov/whisper.cpp""",
             self.indicator.show("Listening...")
         
         # Start audio stream
-        self.audio_stream = sd.InputStream(
-            samplerate=SAMPLE_RATE,
-            channels=1,
-            dtype=np.float32,
-            callback=self._audio_callback
-        )
-        self.audio_stream.start()
-        print("🎤 Recording...")
+        try:
+            self.audio_stream = sd.InputStream(
+                samplerate=SAMPLE_RATE,
+                channels=1,
+                dtype=np.float32,
+                callback=self._audio_callback
+            )
+            self.audio_stream.start()
+            print("🎤 Recording...")
+        except sd.PortAudioError as e:
+            print(f"❌ Microphone Error: {e}")
+            print("\n⚠️  Please grant Microphone permission:")
+            print("   System Settings → Privacy & Security → Microphone")
+            print("   Enable Terminal (or the app you're running from)")
+            print("   Then restart the app.\n")
+            self.is_recording = False
+            self.title = "🎙️"
+            if self.indicator:
+                self.indicator.update("Microphone permission needed", "error")
+                time.sleep(2)
+                self.indicator.hide()
+        except Exception as e:
+            print(f"❌ Error starting recording: {e}")
+            self.is_recording = False
+            self.title = "🎙️"
+            if self.indicator:
+                self.indicator.hide()
     
     def _audio_callback(self, indata, frames, time_info, status):
         """Audio stream callback."""
