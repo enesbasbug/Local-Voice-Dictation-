@@ -32,6 +32,3 @@ ENV/
 *.temp
 *.wav
 
-# Screenshots (add your own)
-screenshots/
-
