@@ -1,0 +1,18 @@
+# VoiceToClipboard - Dependencies
+# Install with: pip install -r requirements.txt
+
+# Audio recording
+sounddevice>=0.4.6
+numpy>=1.24.0
+scipy>=1.10.0
+
+# Global hotkey detection
+pynput>=1.7.6
+
+# Menu bar app
+rumps>=0.4.0
+
+# macOS UI (usually pre-installed with Python on macOS)
+pyobjc-core>=9.0
+pyobjc-framework-Cocoa>=9.0
+

@@ -1,0 +1,37 @@
+# VoiceToClipboard - Git Ignore
+
+# whisper.cpp directory (built by setup.sh)
+whisper.cpp/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.env
+.venv
+env/
+venv/
+ENV/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+*.wav
+
+# Screenshots (add your own)
+screenshots/
+
