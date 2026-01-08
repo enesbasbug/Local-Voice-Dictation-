@@ -22,8 +22,9 @@ cd Local-Voice-Dictation-
 
 # 2. Grant permissions when prompted (Microphone, Input Monitoring, Accessibility)
 
-# 3. Run it
-python3 VoiceToClipboard.py
+# 3. Run it (choose one):
+# Option A: Double-click Start.command in Finder
+# Option B: .venv/bin/python VoiceToClipboard.py
 
 # 4. Use it: Hold Left Control + Left Option → Speak → Release → Cmd+V to paste!
 ```
@@ -76,6 +77,18 @@ xcode-select -p
 # Should output: /Library/Developer/CommandLineTools
 ```
 
+### 3. CMake (Optional - Auto-installed)
+
+The setup script will automatically check for CMake and install it if needed (via Homebrew or pip). If you prefer to install it manually:
+
+```bash
+# Via Homebrew (recommended)
+brew install cmake
+
+# Or via pip (fallback)
+pip3 install cmake
+```
+
 ## 🚀 Quick Start
 
 ### 1. Clone the Repository
@@ -93,7 +106,9 @@ chmod +x setup.sh
 ```
 
 ⏱️ **This takes 5-10 minutes** and will:
-- Install Python dependencies (`rumps`, `sounddevice`, `pynput`, etc.)
+- Create a Python virtual environment (`.venv`) in the project directory
+- Install Python dependencies (`rumps`, `sounddevice`, `pynput`, etc.) into the virtual environment
+- Check for and install CMake if needed (via Homebrew or pip)
 - Clone and build `whisper.cpp` with Metal support
 - Download the Whisper Large V3 model (~3GB download)
 
@@ -113,14 +128,16 @@ You're ready to continue to Step 3.
 The app needs **3 permissions** to work:
 
 #### Option A: Use Start.command (Easiest)
-Double-click `Start.command` in Finder. macOS will automatically ask for permissions.
+Double-click `Start.command` in Finder. This will automatically use the virtual environment if it exists, or fall back to system Python. macOS will automatically ask for permissions.
 
-#### Option B: Use Terminal.app
+#### Option B: Use Terminal.app with Virtual Environment
 ```bash
 /Applications/Utilities/Terminal.app # Open Terminal
 cd ~/path/to/VoiceToClipboard
-python3 VoiceToClipboard.py
+.venv/bin/python VoiceToClipboard.py
 ```
+
+**Note**: The project uses a virtual environment (`.venv`) created during setup. Always use `.venv/bin/python` instead of `python3` to ensure you're using the correct dependencies.
 
 #### Grant These Permissions:
 
@@ -143,7 +160,11 @@ After granting permissions, **fully quit Terminal** (Cmd+Q) and restart the app.
 Run a quick test:
 
 ```bash
-python3 VoiceToClipboard.py
+# Using Start.command (recommended)
+# Just double-click Start.command in Finder
+
+# Or manually via Terminal:
+.venv/bin/python VoiceToClipboard.py
 ```
 
 You should see:
@@ -311,7 +332,14 @@ On a MacBook with Apple Silicon, this means:
 ### Setup Issues
 
 **"Command not found: cmake" or build fails**
-- Install Xcode Command Line Tools: `xcode-select --install`
+- The setup script should automatically install CMake if needed
+- If it fails, try manually:
+  ```bash
+  brew install cmake
+  # Or if Homebrew isn't available:
+  pip3 install cmake
+  ```
+- Ensure Xcode Command Line Tools are installed: `xcode-select --install`
 - Restart Terminal after installation
 
 **"Python version too old"**
@@ -354,8 +382,9 @@ You're missing **Input Monitoring** permission:
 
 **No 🎙️ icon in menu bar**
 - Check for errors in Terminal output
-- Ensure `rumps` is installed: `pip3 install rumps`
-- Try: `python3 VoiceToClipboard.py` directly
+- Ensure you're using the virtual environment: `.venv/bin/python VoiceToClipboard.py`
+- If dependencies are missing, re-run setup: `./setup.sh`
+- Verify `rumps` is installed: `.venv/bin/pip list | grep rumps`
 
 **Transcription is slow**
 - Ensure Metal is enabled (check build output for "Metal")
@@ -418,10 +447,11 @@ A: Not directly — it only records your microphone. For system audio, check out
 ```
 VoiceToClipboard/
 ├── VoiceToClipboard.py    # Main application
-├── Start.command          # Double-click launcher
+├── Start.command          # Double-click launcher (uses .venv automatically)
 ├── setup.sh               # Installation script
 ├── requirements.txt       # Python dependencies
 ├── README.md              # This file
+├── .venv/                 # Python virtual environment (created by setup.sh)
 └── whisper.cpp/           # (Created by setup.sh)
     ├── build/bin/whisper-cli
     └── models/ggml-large-v3.bin

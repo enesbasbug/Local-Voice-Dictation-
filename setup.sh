@@ -42,10 +42,45 @@ fi
 echo "✅ Xcode Command Line Tools"
 echo ""
 
+# Create and use a project virtual environment
+VENV_DIR="$SCRIPT_DIR/.venv"
+VENV_PY="$VENV_DIR/bin/python"
+VENV_PIP="$VENV_DIR/bin/pip"
+if [ ! -d "$VENV_DIR" ]; then
+    echo "📦 Creating Python virtual environment (.venv)..."
+    python3 -m venv "$VENV_DIR"
+    echo "✅ Virtual environment created"
+fi
+# Ensure venv bin is first on PATH so tools like cmake (if installed via pip) are found
+export PATH="$VENV_DIR/bin:$PATH"
+
+# Ensure CMake is available
+if ! command -v cmake >/dev/null 2>&1; then
+    echo "❌ CMake not found"
+    if command -v brew >/dev/null 2>&1; then
+        echo ""
+        echo "📦 Installing CMake via Homebrew..."
+        brew update && brew install cmake
+        echo "✅ CMake installed"
+    else
+        echo ""
+        echo "ℹ️  Homebrew not found. Attempting Python-based CMake..."
+        "$VENV_PY" -m pip install --upgrade --quiet cmake || true
+        if ! command -v cmake >/dev/null 2>&1; then
+            echo "❌ CMake still not available in PATH"
+            echo "   Please install Homebrew and CMake manually, then re-run:"
+            echo "   /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+            echo "   brew install cmake"
+            exit 1
+        fi
+        echo "✅ CMake installed via pip"
+    fi
+fi
+
 # Install Python dependencies
 echo "📦 Installing Python dependencies..."
 echo "   (rumps, sounddevice, pynput, numpy, scipy...)"
-pip3 install -r requirements.txt --quiet
+"$VENV_PIP" install -r requirements.txt --quiet
 echo "✅ Python packages installed"
 
 # Clone and build whisper.cpp
@@ -119,4 +154,3 @@ echo "4. Hold Left Control + Left Option → Speak → Release → Cmd+V"
 echo ""
 echo "=============================================="
 echo ""
-
