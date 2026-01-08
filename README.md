@@ -17,7 +17,7 @@ Powered by [whisper.cpp](https://github.com/ggerganov/whisper.cpp) and [GGML](ht
 ```bash
 # 1. Clone and setup
 git clone https://github.com/enesbasbug/Local-Voice-Dictation-.git
-cd VoiceToClipboard
+cd Local-Voice-Dictation-
 ./setup.sh
 
 # 2. Grant permissions when prompted (Microphone, Input Monitoring, Accessibility)
@@ -82,7 +82,7 @@ xcode-select -p
 
 ```bash
 git clone https://github.com/enesbasbug/Local-Voice-Dictation-.git
-cd VoiceToClipboard
+cd Local-Voice-Dictation-
 ```
 
 ### 2. Run Setup
