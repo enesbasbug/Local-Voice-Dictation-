@@ -1,0 +1,5 @@
+# Ignore logs directory - prevents log content from polluting AI context
+logs/
+
+# Ignore whisper.cpp build artifacts
+whisper.cpp/
