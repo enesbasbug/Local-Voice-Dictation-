@@ -9,10 +9,18 @@ scipy>=1.10.0
 # Global hotkey detection
 pynput>=1.7.6
 
-# Menu bar app
-rumps>=0.4.0
+# Cross-platform clipboard
+pyperclip>=1.8.2
 
-# macOS UI (usually pre-installed with Python on macOS)
-pyobjc-core>=9.0
-pyobjc-framework-Cocoa>=9.0
+# ============================================
+# macOS ONLY (comment out on Windows)
+# ============================================
+rumps>=0.4.0; sys_platform == "darwin"
+pyobjc-core>=9.0; sys_platform == "darwin"
+pyobjc-framework-Cocoa>=9.0; sys_platform == "darwin"
 
+# ============================================
+# Windows ONLY (comment out on macOS)
+# ============================================
+pystray>=0.19.0; sys_platform == "win32"
+Pillow>=9.0.0; sys_platform == "win32"
