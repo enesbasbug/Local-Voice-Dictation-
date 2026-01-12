@@ -34,7 +34,8 @@ cd Local-Voice-Dictation-
 setup_windows.bat
 
 # Run:
-.venv\Scripts\python VoiceToClipboard.py
+Start.bat
+# Or: .venv\Scripts\python VoiceToClipboard.py
 
 # Use: Hold Left Ctrl + Left Alt → Speak → Release → Ctrl+V
 ```
@@ -58,15 +59,15 @@ setup_windows.bat
 ### macOS
 - macOS 12.0 or later
 - Apple Silicon (M1/M2/M3/M4) recommended
-- Python 3.10+
+- Python 3.9+
 - Xcode Command Line Tools
 
 ### Windows
 - Windows 10/11
-- Python 3.10+
+- Python 3.9+
 - Git
 - CMake
-- Visual Studio Build Tools (with C++ workload)
+- Visual Studio Build Tools (with C++ workload and Windows SDK)
 
 ---
 
@@ -99,11 +100,13 @@ setup_windows.bat
 ### Windows Setup
 
 1. **Prerequisites:**
-   - Install [Python 3.10+](https://www.python.org/downloads/) (check "Add to PATH")
+   - Install [Python 3.9+](https://www.python.org/downloads/) (check "Add to PATH")
    - Install [Git](https://git-scm.com/download/win)
    - Install [CMake](https://cmake.org/download/)
    - Install [Visual Studio Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
-     - Select "Desktop development with C++"
+     - Select "Desktop development with C++" workload
+     - **Important:** Make sure "Windows 10 SDK" (or Windows 11 SDK) is checked in the optional components
+     - Click "Modify" to install (this may take 10-20 minutes)
 
 2. **Clone and setup:**
    ```cmd
@@ -111,11 +114,14 @@ setup_windows.bat
    cd Local-Voice-Dictation-
    setup_windows.bat
    ```
+   
+   **Note:** In PowerShell, use `.\setup_windows.bat` (with `.\` prefix).
 
 3. **Run the app:**
-   ```cmd
-   .venv\Scripts\python VoiceToClipboard.py
-   ```
+   - Double-click `Start.bat`
+   - Or run: `.venv\Scripts\python VoiceToClipboard.py`
+   
+   The app will appear in your system tray (look for the microphone icon).
 
 ---
 
@@ -144,21 +150,23 @@ RECORD_KEYS = {keyboard.Key.ctrl_l, keyboard.Key.alt_l}  # Both required
 
 ### Switch Models
 
-Click the tray/menu bar icon → Whisper Model → Choose model
+**During Setup:** Edit `setup.sh` (macOS) or `setup_windows.bat` (Windows) and uncomment the model you want. The default is **Base** (fast, good quality).
 
-| Model | Size | Speed | Quality |
-|-------|------|-------|---------|
-| Tiny | 75MB | ⚡⚡⚡⚡ | ⭐ |
-| Base | 142MB | ⚡⚡⚡ | ⭐⭐ |
-| Medium | 1.5GB | ⚡⚡ | ⭐⭐⭐ |
-| Large V3 | 3GB | ⚡ | ⭐⭐⭐⭐ |
+**After Setup:** Click the tray/menu bar icon → Whisper Model → Choose model
+
+| Model | Size | Speed | Quality | Default |
+|-------|------|-------|---------|---------|
+| Tiny | 75MB | ⚡⚡⚡⚡ | ⭐ | No |
+| **Base** | **142MB** | **⚡⚡⚡** | **⭐⭐** | **Yes** |
+| Medium | 1.5GB | ⚡⚡ | ⭐⭐⭐ | No |
+| Large V3 | 3GB | ⚡ | ⭐⭐⭐⭐ | No |
 
 ### Download Additional Models
 
 **macOS:**
 ```bash
 cd whisper.cpp
-./models/download-ggml-model.sh base  # or tiny, medium
+./models/download-ggml-model.sh base  # or tiny, medium, large-v3
 ```
 
 **Windows:**
@@ -213,11 +221,16 @@ All processing happens locally on your device:
 
 **"whisper-cli.exe not found"**
 - Run `setup_windows.bat` again
-- Make sure Visual Studio Build Tools is installed
+- Make sure Visual Studio Build Tools is installed with Windows SDK
+
+**CMake configuration fails**
+- Ensure Visual Studio Build Tools is fully installed (click "Modify" in Visual Studio Installer)
+- Make sure "Windows 10 SDK" (or Windows 11 SDK) is checked in optional components
+- The setup script will automatically find and configure Visual Studio if installed
 
 **Build errors**
-- Run from "Developer Command Prompt for VS 2022"
-- Ensure C++ workload is installed
+- Make sure you clicked "Modify" in Visual Studio Installer to actually install the components
+- Ensure "Desktop development with C++" workload is installed with Windows SDK
 
 **Hotkey doesn't work**
 - Run as Administrator

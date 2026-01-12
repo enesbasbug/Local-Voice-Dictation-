@@ -401,8 +401,8 @@ if IS_MACOS:
             self.whisper_cpp = find_whisper_cli(self.base_dir)
             self.models_dir = find_models_dir(self.base_dir, self.whisper_cpp)
             
-            # Current model selection
-            self.current_model = "Large V3 (Best Quality)"
+            # Current model selection (defaults to Base for faster performance)
+            self.current_model = "Base (Fast)"
             self.current_model_file = WHISPER_MODELS[self.current_model]["file"]
             
             # Recording state
@@ -678,8 +678,8 @@ if IS_WINDOWS:
             self.whisper_cpp = find_whisper_cli(self.base_dir)
             self.models_dir = find_models_dir(self.base_dir, self.whisper_cpp)
             
-            # Current model selection
-            self.current_model = "Large V3 (Best Quality)"
+            # Current model selection (defaults to Base for faster performance)
+            self.current_model = "Base (Fast)"
             self.current_model_file = WHISPER_MODELS[self.current_model]["file"]
             
             # Recording state

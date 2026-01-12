@@ -2,4 +2,4 @@
 logs/
 
 # Ignore whisper.cpp build artifacts
-whisper.cpp/
+# whisper.cpp/

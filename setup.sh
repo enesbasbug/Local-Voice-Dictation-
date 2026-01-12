@@ -17,10 +17,10 @@ echo ""
 # Check Python version
 echo "🔍 Checking prerequisites..."
 PYTHON_VERSION=$(python3 --version 2>&1 | awk '{print $2}')
-REQUIRED_VERSION="3.10"
+REQUIRED_VERSION="3.9"
 
-if ! python3 -c "import sys; exit(0 if sys.version_info >= (3, 10) else 1)" 2>/dev/null; then
-    echo "❌ Python 3.10+ required, found: $PYTHON_VERSION"
+if ! python3 -c "import sys; exit(0 if sys.version_info >= (3, 9) else 1)" 2>/dev/null; then
+    echo "❌ Python 3.9+ required, found: $PYTHON_VERSION"
     echo "   Install from: https://www.python.org/downloads/macos/"
     exit 1
 fi
@@ -112,14 +112,35 @@ cd "$SCRIPT_DIR"
 
 # Download Whisper model
 MODEL_DIR="whisper.cpp/models"
-MODEL_FILE="$MODEL_DIR/ggml-large-v3.bin"
+
+# ============================================
+# MODEL SELECTION - Uncomment the model you want:
+# ============================================
+# Base (Fast, ~142MB) - DEFAULT - Good balance of speed and quality
+MODEL_NAME="base"
+MODEL_SIZE="~142MB"
+
+# Tiny (Fastest, ~75MB) - Fastest but lower quality
+# MODEL_NAME="tiny"
+# MODEL_SIZE="~75MB"
+
+# Medium (Balanced, ~1.5GB) - Better quality, slower
+# MODEL_NAME="medium"
+# MODEL_SIZE="~1.5GB"
+
+# Large V3 (Best Quality, ~3GB) - Best quality but slowest
+# MODEL_NAME="large-v3"
+# MODEL_SIZE="~3GB"
+# ============================================
+
+MODEL_FILE="$MODEL_DIR/ggml-$MODEL_NAME.bin"
 
 if [ ! -f "$MODEL_FILE" ]; then
     echo ""
-    echo "📥 Downloading Whisper Large V3 model (best quality)..."
-    echo "   This may take a while (~3GB download)"
+    echo "📥 Downloading Whisper $MODEL_NAME model ($MODEL_SIZE)..."
+    echo "   This may take a while depending on your connection"
     cd whisper.cpp
-    ./models/download-ggml-model.sh large-v3
+    ./models/download-ggml-model.sh $MODEL_NAME
     cd "$SCRIPT_DIR"
 else
     echo "✅ Whisper model already downloaded"
